@@ -48,7 +48,12 @@ const styles = theme => ({
       backgroundSize: 'cover',
     }
   }),
-  [theme.breakpoints.up(900 + theme.spacing.unit * 6)]: {
+  [theme.breakpoints.up("md")]: {
+    header: {
+      maxWidth: 1140,
+    },
+  },
+  [theme.breakpoints.down("md")]: {
     header: {
       maxWidth: 900,
     },
