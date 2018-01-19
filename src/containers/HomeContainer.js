@@ -32,6 +32,7 @@ const styles = theme => ({
     flex: '1 1 100%',
     maxWidth: '100%',
     margin: '0 auto',
+    position: 'relative',
     '&:before': {
       position: 'absolute',
       top: 0,
