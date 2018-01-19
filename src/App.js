@@ -73,7 +73,7 @@ class App extends Component {
             </IconButton>
             <Link to="/" className={classes.logoLink}>
               <Typography type="title" color="inherit" className={classes.flex}>
-                Made in Alba
+                Made in Alba Iulia
               </Typography>
             </Link>
             <Button color="contrast">

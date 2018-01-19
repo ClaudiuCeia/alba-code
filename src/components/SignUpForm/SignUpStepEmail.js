@@ -45,7 +45,7 @@ class SignUpStepEmail extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, profile } = this.props;
 
     return (
       <div>
@@ -64,6 +64,7 @@ class SignUpStepEmail extends Component {
               id="email"
               type="text"
               onChange={this.handleInput('email')}
+              defaultValue={profile.email}
             />
           </FormControl>
         </div>
@@ -74,6 +75,7 @@ class SignUpStepEmail extends Component {
 
 SignUpStepEmail.propTypes = {
     classes: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
     handler: PropTypes.func,
 };
 

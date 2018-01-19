@@ -8,7 +8,8 @@ import { LinearProgress } from 'material-ui/Progress';
 import SignUpStepName from './SignUpStepName';
 import SignUpStepEmail from './SignUpStepEmail';
 import SignUpStepExpertise from './SignUpStepExpertise';
- 
+import SignUpStepConfirm from './SignUpStepConfirm';
+
 const styles = theme => ({
   root: {
     minHeight: 350,
@@ -33,17 +34,22 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 3,
   },
   signUpField: {
-    marginRight: theme.spacing.unit * 3
+    marginRight: theme.spacing.unit * 3,
   },
   signUpNext: {
-    marginTop: theme.spacing.unit * 3
+    marginTop: theme.spacing.unit * 3,
+  },
+  signUpPrevious: {
+    marginRight: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit * 3,
   }
 });
 
 const SignUpSteps = [
-  SignUpStepExpertise,
   SignUpStepName,
+  SignUpStepExpertise,
   SignUpStepEmail,
+  SignUpStepConfirm,
 ];
 
 class SignUpForm extends Component {
@@ -51,14 +57,18 @@ class SignUpForm extends Component {
 
   state = {
     currentStep: 0,
-    nume: '',
-    prenume: '',
+    nume: null,
+    prenume: null,
+    specialty: null,
+    skills: [],
+    email: null,
+    occupation: null,
   };
 
   constructor(props) {
     super(props);
-
     this.stepHandler = this.stepHandler.bind(this)
+    this.state.occupation = props.occupation;
   }
 
   stepHandler(field, value) {
@@ -72,19 +82,62 @@ class SignUpForm extends Component {
   }
 
   nextStep = event => {
-    this.setState({
-      currentStep: this.state.currentStep+1,
-    })
+    if (this.state.currentStep < SignUpSteps.length - 1) {
+      this.setState({
+        currentStep: this.state.currentStep + 1,
+      });
+    }
+  };
+
+  previousStep = event => {
+    if (this.state.currentStep > 0) {
+      this.setState({
+        currentStep: this.state.currentStep - 1,
+      });
+    }
   };
 
   render() {
     const { classes } = this.props;
-
-    console.log(this.state);
     const CurrentStep = this.getCurrentStep();
 
-    if (CurrentStep === null) {
+    if (CurrentStep === undefined) {
       return <div>Something went bonkers.</div>;
+    }
+
+    let previousButton = null;
+    if (this.state.currentStep > 0) {
+      previousButton =
+        <Button
+          onClick={this.previousStep}
+          raised
+          className={classes.signUpPrevious}>
+          Înapoi
+        </Button>;
+    }
+
+    let nextButton = null;
+    if (this.state.currentStep < SignUpSteps.length - 1) {
+      nextButton =
+        <Button
+          onClick={this.nextStep}
+          raised
+          color="primary"
+          className={classes.signUpNext}>
+          Continuă
+        </Button>;
+    }
+
+    let confirmButton = null;
+    if (this.state.currentStep === SignUpSteps.length - 1) {
+      confirmButton =
+        <Button
+          onClick={this.nextStep}
+          raised
+          color="primary"
+          className={classes.signUpNext}>
+          Confirmă
+        </Button>;
     }
 
     return (
@@ -94,14 +147,13 @@ class SignUpForm extends Component {
           value={this.state.currentStep * this.stepProgressValue}
         />
         <div className={classes.header}>
-          <CurrentStep handler={this.stepHandler} />
-          <Button
-            onClick={this.nextStep}
-            raised
-            color="primary"
-            className={classes.signUpNext}>
-            Continuă
-          </Button>
+          <CurrentStep
+            handler={this.stepHandler}
+            profile={this.state}
+          />
+          {previousButton}
+          {nextButton}
+          {confirmButton}
         </div>
       </div>
     );
@@ -110,6 +162,7 @@ class SignUpForm extends Component {
 
 SignUpForm.propTypes = {
     classes: PropTypes.object.isRequired,
+    occupation: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(SignUpForm);
