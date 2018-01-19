@@ -102,7 +102,7 @@ const styles = theme => ({
 
 class HomeContainer extends Component {
   state = {
-    occupation: 10,
+    occupation: "antreprenor",
     isSigningUp: false,
   }
 
@@ -147,9 +147,9 @@ class HomeContainer extends Component {
                   }}
                   onChange={this.handleOccupationChange}
                   input={<Input name="occupation" id="occupation" />}>
-                  <MenuItem value={10}>antreprenor</MenuItem>
-                  <MenuItem value={20}>specialist</MenuItem>
-                  <MenuItem value={30}>investitor</MenuItem>
+                  <MenuItem value="antreprenor">antreprenor</MenuItem>
+                  <MenuItem value="specialist">specialist</MenuItem>
+                  <MenuItem value="investitor">investitor</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -172,7 +172,9 @@ class HomeContainer extends Component {
       </div>
     );
 
-    return !this.state.isSigningUp ? header : <SignUpForm />;
+    return !this.state.isSigningUp
+      ? header :
+      <SignUpForm occupation={this.state.occupation} />;
   }
 }
 

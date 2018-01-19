@@ -5,7 +5,6 @@ import classnames from 'classnames';
 
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
-import Input, { InputLabel } from 'material-ui/Input';
 import Button from 'material-ui/Button';
 import Grid from 'material-ui/Grid';
 
@@ -44,6 +43,9 @@ const styles = theme => ({
   },
   button: {
     border: '3px solid',
+  },
+  selectedButton: {
+    background: 'rgba(100, 0, 255, .6)',
   }
 });
 
@@ -71,6 +73,7 @@ const SpecialtyList = [{
     'C#',
     'R',
     'Perl',
+    'Hacklang'
   ],
 }, {
   specialty: 'UX/UI Designer',
@@ -116,21 +119,74 @@ const SpecialtyList = [{
 class SignUpStepExpertise extends Component {
   state = {
     skills: [],
+    selectedSpecialty: null,
+    selectedSkills: [],
   }
+
+  constructor(props) {
+    super(props);
+    const { profile } = props;
+
+    let selectedSpecialty = profile.specialty;
+    let selectedSkills = profile.skills;
+
+    if (!selectedSpecialty) {
+      return;
+    }
+
+    let skills = (specialty) => {
+      let foundSkills = [];
+
+      SpecialtyList.forEach(el => {
+        if (el.specialty === specialty) {
+          foundSkills = el.skills;
+          return;
+        }
+      });
+
+      return foundSkills ? foundSkills : [];
+    }
+
+    this.state = {
+      selectedSpecialty: selectedSpecialty,
+      skills: skills(selectedSpecialty),
+      selectedSkills: selectedSkills
+    };
+  }
+
+  findSkillsForSpecialty(specialty) {
+  }
+
   handleInput = field => event => {
     this.props.handler(field, event.target.value);
   }
 
-  expandSpecialty = skills => event => {
-      this.setState({ skills: skills });
+  expandSpecialty = (specialty, skills) => event => {
+      this.setState({
+        skills: skills,
+        selectedSpecialty: specialty,
+      });
+
+      this.props.handler('specialty', specialty);
   }
 
   handleSkill = skill => event => {
-      console.log(skill);
+      const selectedSkills = this.state.selectedSkills;
+      const idx = selectedSkills.indexOf(skill);
+
+      if (idx !== -1) {
+        selectedSkills.splice(idx, 1);
+      } else {
+        selectedSkills.push(skill);
+      }
+
+      this.setState({ selectedSkills: selectedSkills});
+      this.props.handler('skills', selectedSkills);
   }
 
   render() {
     const { classes } = this.props;
+    let { selectedSpecialty, selectedSkills } = this.state;
 
     const skillList =
       <div className={classes.skillsForm}>
@@ -148,7 +204,12 @@ class SignUpStepExpertise extends Component {
               <Grid item key={skill}>
                 <Button
                   onClick={this.handleSkill(skill)}
-                  className={classes.button}>
+                  className={classnames(
+                    classes.button,
+                    (selectedSkills.indexOf(skill) !== -1
+                      ? classes.selectedButton
+                      : null),
+                  )}>
                   {skill}
                 </Button>
               </Grid>
@@ -172,8 +233,16 @@ class SignUpStepExpertise extends Component {
             {SpecialtyList.map(specialty => (
               <Grid item key={specialty.specialty}>
                 <Button
-                  onClick={this.expandSpecialty(specialty.skills)}
-                  className={classes.button}>
+                  onClick={this.expandSpecialty(
+                    specialty.specialty,
+                    specialty.skills,
+                  )}
+                  className={classnames(
+                    classes.button,
+                    (selectedSpecialty === specialty.specialty
+                      ? classes.selectedButton
+                      : null),
+                  )}>
                   {specialty.specialty}
                 </Button>
               </Grid>
@@ -188,6 +257,7 @@ class SignUpStepExpertise extends Component {
 
 SignUpStepExpertise.propTypes = {
     classes: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
     handler: PropTypes.func,
 };
 

@@ -45,7 +45,7 @@ class SignUpStepName extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, profile } = this.props;
 
     return (
       <div>
@@ -64,6 +64,7 @@ class SignUpStepName extends Component {
               id="prenume"
               type="text"
               onChange={this.handleInput('prenume')}
+              defaultValue={profile.prenume}
             />
           </FormControl>
           <FormControl className={classes.signUpField}>
@@ -72,6 +73,7 @@ class SignUpStepName extends Component {
               id="nume"
               type="text"
               onChange={this.handleInput('nume')}
+              defaultValue={profile.nume}
             />
           </FormControl>
         </div>
@@ -82,6 +84,7 @@ class SignUpStepName extends Component {
 
 SignUpStepName.propTypes = {
     classes: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
     handler: PropTypes.func,
 };
 
