@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import Reboot from 'material-ui/Reboot';
+
 import { makeMainRoutes } from './routes';
 import registerServiceWorker from './registerServiceWorker';
 
@@ -37,7 +39,7 @@ const routes = makeMainRoutes();
 
 const WrappedApp = (
   <MuiThemeProvider theme={theme}>
-    {routes}
+    <Reboot>{routes}</Reboot>
   </MuiThemeProvider>
 );
 
