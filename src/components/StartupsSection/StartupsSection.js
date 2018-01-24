@@ -4,45 +4,15 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import { withStyles } from 'material-ui/styles';
-import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
-import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 import Grid from 'material-ui/Grid';
 
-import ArrowForwardIcon from 'material-ui-icons/ArrowForward';
-import WWWIcon from 'material-ui-icons/Public';
-
-import WhiteCityCodeImg from '../../assets/whitecitycode.png';
-import TagDivImg from '../../assets/tagdiv.jpg';
-import TekkieConsultingImg from '../../assets/tekkieconsulting.jpg';
-import OMSImg from '../../assets/oms.png';
 import BackgroundImg from '../../assets/albastatui.JPG';
 
-const Startups = [{
-  name: 'WhiteCity Code',
-  description: 'A Romanian company based in Alba Iulia (White City). We are a highly qualified and experienced team, with a total of 18 years of studies in Computer Science, Management, Translations and even Law.',
-  logo: WhiteCityCodeImg,
-  link: 'https://whitecitycode.com/',
-  domain: 'Software',
-}, {
-  name: 'Tekkie Consulting',
-  description: 'We are an application development shop that helps our clients manage complex workflows and ideas. We translate them into compact, fast, usable software that delivers value from day one. We handle projects from conception to launch and maintenance.',
-  logo: TekkieConsultingImg,
-  link: 'https://tekkie.ro/',
-  domain: 'Software',
-}, {
-  name: 'TagDiv',
-  description: 'Combining top class coding, fresh intuitive design, and unmatched functionality, we build outstanding WordPress themes. Our goal is to create simple, elegant web solutions that help our clients accomplish their goals without effort. For this, we explore cutting-edge technologies and infuse them into beautifully handcrafted themes.',
-  logo: TagDivImg,
-  link: 'https://tagdiv.com',
-  domain: 'WordPress',
-}, {
-  name: 'OMS',
-  description: 'We are a software developing company that uses mainly .NET technology, but also Java, PHP or BI for Branded software products.',
-  logo: OMSImg,
-  link: 'http://oms-soft.com/',
-  domain: 'Software',
-}];
+import Startup from './Startup';
+
+import { graphql } from 'react-apollo'
+import gql from 'graphql-tag'
 
 const styles = theme => ({
   root: {
@@ -72,11 +42,6 @@ const styles = theme => ({
       width: '100%',
       height: '100%',
       display: 'block',
-      /*background: `linear-gradient(
-        103deg,
-        rgba(49, 220, 207, .6),
-        rgba(36, 79, 231, .6)
-      )`,*/
     }
   },
   leftIcon: {
@@ -113,8 +78,24 @@ const styles = theme => ({
 
 class StartupsSection extends Component {
   render() {
-    const { classes } = this.props;
+    const { data, classes } = this.props;
 
+    if (data.loading) {
+      return (
+        <div>
+          Loading
+        </div>
+      );
+    }
+
+    if (data.error) {
+      return (
+        <div>
+          Error
+        </div>
+      );
+    }
+    
     return (
       <div className={classes.root}>
         <Grid
@@ -142,34 +123,8 @@ class StartupsSection extends Component {
           alignItems="flex-start"
           justify="flex-start"
           className={classnames(classes.content, classes.main)}>
-          {Startups.map(startup => (
-            <Grid item xs={12} sm={4} key={startup.name}>
-              <Card className={classes.card}>
-                <CardMedia
-                  className={classes.media}
-                  image={'https://placeimg.com/275/200/tech?'+startup.domain}
-                  title={startup.name}
-                />
-                <CardContent>
-                  <Typography type="headline" component="h2">
-                    {startup.name}
-                  </Typography>
-                  <Typography component="p">
-                    {startup.domain}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button dense color="primary">
-                    <ArrowForwardIcon className={classes.leftIcon} />
-                    Detalii
-                  </Button>
-                  <Button dense color="primary">
-                    <WWWIcon className={classes.leftIcon} />
-                    www
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
+          {data.allStartups.map(startup => (
+            <Startup startup={startup} key={startup.name}/>
           ))}
         </Grid>
       </div>
@@ -177,8 +132,33 @@ class StartupsSection extends Component {
   }
 }
 
+
+const STARTUPS_QUERY = gql`
+  query AllStartupsQuery {
+    allStartups(orderBy: createdAt_DESC) {
+      id
+      imageUrl
+      description
+      name
+      link
+      domain
+    }
+  }
+`
+
 StartupsSection.propTypes = {
   classes: PropTypes.object.isRequired,
+  data: PropTypes.shape({
+    loading: PropTypes.bool.isRequired,
+    allStartups: PropTypes.array,
+    error: PropTypes.object,
+  }).isRequired,
 };
 
-export default withStyles(styles)(StartupsSection);
+
+export default graphql(STARTUPS_QUERY, {
+  options: {
+    fetchPolicy: 'network-only',
+    pollInterval: 5000,
+  },
+})(withStyles(styles)(StartupsSection));
