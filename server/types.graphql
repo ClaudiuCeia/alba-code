@@ -6,4 +6,6 @@ type Startup @model {
   name: String!
   description: String!
   imageUrl: String!
+  link: String! @migrationValue(value: "localhost")
+  domain: String! @migrationValue(value: "software")
 }

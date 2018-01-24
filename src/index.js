@@ -8,6 +8,11 @@ import registerServiceWorker from './registerServiceWorker';
 
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 
+import { ApolloProvider } from 'react-apollo'
+import { ApolloClient } from 'apollo-client'
+import { HttpLink } from 'apollo-link-http'
+import { InMemoryCache } from 'apollo-cache-inmemory'
+
 import indigo from 'material-ui/colors/indigo';
 
 import './index.css';
@@ -35,12 +40,23 @@ const theme = createMuiTheme({
     }
 });
 
+const httpLink = new HttpLink({
+  uri: 'https://api.graph.cool/simple/v1/cjbcvpotq1fk401528vwqiz3n'
+});
+
+const client = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache()
+})
+
 const routes = makeMainRoutes();
 
 const WrappedApp = (
-  <MuiThemeProvider theme={theme}>
-    <Reboot>{routes}</Reboot>
-  </MuiThemeProvider>
+  <ApolloProvider client={client}>
+    <MuiThemeProvider theme={theme}>
+      <Reboot>{routes}</Reboot>
+    </MuiThemeProvider>
+  </ApolloProvider>
 );
 
 ReactDOM.render(
