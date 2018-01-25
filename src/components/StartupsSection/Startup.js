@@ -13,19 +13,43 @@ import WWWIcon from 'material-ui-icons/Public';
 const styles = theme => ({
   card: {
     maxHeight: 400,
+    boxShadow: 'none',
+    backgroundColor: '#F0F2FA',
   },
   media: {
     height: 200,
-    '&:after': {
+    position: 'relative',
+    '&:before': {
       content: '""',
       width: '100%',
       height: '100%',
       display: 'block',
+      background: 'rgba(0, 0, 0, .2)',
     }
   },
   leftIcon: {
     marginRight: theme.spacing.unit,
   },
+  button: {
+    color: '#7F8398',
+  },
+  label: {
+    textTransform: 'uppercase',
+    lineHeight: '1.5rem',
+    color: '#7F8398',
+    fontSize: '12px',
+    fontWeight: 'bold',
+    letterSpacing: '1px',
+  },
+  startupName: {
+    fontWeight: 'bold',
+  },
+  startupLogo: {
+    height: '50px',
+    bottom: '10px',
+    position: 'absolute',
+    right: '10px',
+  }
 });
 
 class Startup extends Component {
@@ -33,27 +57,32 @@ class Startup extends Component {
     const { classes, startup } = this.props;
 
     return (
-      <Grid item xs={12} sm={4} key={startup.name}>
+      <Grid item xs={12} sm={3} key={startup.name}>
         <Card className={classes.card}>
           <CardMedia
             className={classes.media}
             image={startup.imageUrl}
-            title={startup.name}
-          />
+            title={startup.name}>
+          </CardMedia>
           <CardContent>
-            <Typography type="headline" component="h2">
+            <Typography
+              type="title"
+              component="h2"
+              className={classes.startupName}>
               {startup.name}
             </Typography>
-            <Typography component="p">
+            <Typography
+              component="p"
+              className={classes.label}>
               Software
             </Typography>
           </CardContent>
           <CardActions>
-            <Button dense color="primary">
+            <Button dense color="secondary" className={classes.button}>
               <ArrowForwardIcon className={classes.leftIcon} />
               Detalii
             </Button>
-            <Button dense color="primary">
+            <Button dense color="secondary" className={classes.button}>
               <WWWIcon className={classes.leftIcon} />
               www
             </Button>

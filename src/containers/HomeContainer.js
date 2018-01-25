@@ -5,34 +5,34 @@ import classnames from 'classnames';
 
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
-import Grid from 'material-ui/Grid';
-import Button from 'material-ui/Button';
-import Input from 'material-ui/Input';
-import { MenuItem } from 'material-ui/Menu';
-import { FormControl } from 'material-ui/Form';
-import Select from 'material-ui/Select';
 
 import headerBackgroundImage from '../assets/header1920blank.jpg';
 
-import SignUpForm from '../components/SignUpForm/SignUpForm';
 import StartupsSection from '../components/StartupsSection/StartupsSection';
 
 const styles = theme => ({
   root: {
-    minHeight: 350,
+    minHeight: 420,
     position: 'relative',
   },
-  section: {
-    paddingTop: 50,
-    padding: theme.spacing.unit * 3,
+  [theme.breakpoints.up("md")]: {
+    headerContent: {
+      maxWidth: 1140,
+      margin: '0 auto',
+    },
+  },
+  [theme.breakpoints.down("md")]: {
+    headerContent: {
+      maxWidth: 900,
+      margin: '0 auto',
+    },
   },
   header: theme.mixins.gutters({
-    paddingTop: theme.spacing.unit * 10,
-    paddingBottom: theme.spacing.unit * 10,
+    minHeight: 320,
     flex: '1 1 100%',
-    maxWidth: '100%',
     margin: '0 auto',
     position: 'relative',
+    marginBottom: 100,
     '&:before': {
       position: 'absolute',
       top: 0,
@@ -41,146 +41,58 @@ const styles = theme => ({
       width: '100%',
       height: '100%',
       content: '""',
-      background: `
-        linear-gradient(rgba(100, 0, 255, .6),
-        rgba(100, 0, 255, .6)),
-        url(${headerBackgroundImage}) no-repeat center center`,
+      backgroundImage: `
+        linear-gradient(106deg, rgba(118,51,183, .65), rgba(13,83,154, .65)),
+        url(${headerBackgroundImage})`,
       backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center center',
     }
   }),
-  [theme.breakpoints.up("md")]: {
-    header: {
-      maxWidth: 1140,
-    },
-  },
-  [theme.breakpoints.down("md")]: {
-    header: {
-      maxWidth: 900,
-    },
+  headerContent: {
+    paddingTop: 80,
   },
   headline: {
     color: '#fff',
-    fontSize: '2rem',
-    width: '65%',
-    margin: '0 auto',
+    fontSize: '3rem',
+    width: '55%',
     position: 'relative'
   },
-  searchForm: {
-    background: 'rgba(255, 255, 255, 1)',
-  },
-  list: {
-    listStyleType: 'none',
-    padding: 0,
-  },
-  listLink: {
-    textDecoration: 'none',
-    '&:hover': {
-      textDecoration: 'underline',
-    }
-  },
-  callToAction: {
+  headlineNote: {
+    color: '#fff',
+    textTransform: 'uppercase',
     position: 'relative',
-    marginTop: theme.spacing.unit * 6,
-  },
-  ctaText: {
-    position: 'relative',
-    color: '#fff',
-  },
-  ctaButton: {
-    border: '3px solid #fff',
-  },
-  ctaSelect: {
-    color: '#fff',
-  },
-  ctaSelectIcon: {
-    color: '#fff',
-  },
-  signUpForm: {
-    marginTop: theme.spacing.unit * 3,
-  },
-  signUpField: {
-    marginRight: theme.spacing.unit * 3
-  },
-  signUpNext: {
-    marginTop: theme.spacing.unit * 3
+    letterSpacing: '.5px',
+    fontSize: '14px',
+    fontWeight: 'bold',
   }
 });
 
 class HomeContainer extends Component {
-  state = {
-    occupation: "antreprenor",
-    isSigningUp: false,
-  }
-
-  handleOccupationChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
-
-  handleSignUp = event => {
-    this.setState({ isSigningUp: true });
-  }
   render() {
     const { classes } = this.props;
 
-    const header = (
+    return (
       <div className={classnames(classes.root, classes.bg)}>
         <div className={classes.header}>
-          <Typography
-            type="headline"
-            align="center"
-            className={classnames(
-              classes.headline
-            )}>
-            Comunitatea de startup-uri și tehnologie din Alba Iulia
-          </Typography>
-          <Grid
-            alignItems="center"
-            justify="center"
-            container
-            className={classes.callToAction}>
-            <Grid item>
-              <Typography type="subheading" className={classes.ctaText}>
-                Sunt
-              </Typography>
-            </Grid>
-            <Grid item>
-              <FormControl>
-                <Select
-                  value={this.state.occupation}
-                  classes={{
-                    select: classes.ctaSelect,
-                    icon: classes.ctaSelectIcon,
-                  }}
-                  onChange={this.handleOccupationChange}
-                  input={<Input name="occupation" id="occupation" />}>
-                  <MenuItem value="antreprenor">antreprenor</MenuItem>
-                  <MenuItem value="specialist">specialist</MenuItem>
-                  <MenuItem value="investitor">investitor</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item>
-              <Typography type="subheading" className={classes.ctaText}>
-                și vreau să mă
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Button
-                color="contrast"
-                className={classes.ctaButton}
-                onClick={this.handleSignUp}>
-                înscriu
-              </Button>
-            </Grid>
-          </Grid>
+          <div className={classes.headerContent}>
+            <Typography
+              type="title"
+              className={classes.headlineNote}>
+              O comunitate de 361 de albaiulieni
+            </Typography>
+            <Typography
+              type="headline"
+              className={classnames(
+                classes.headline
+              )}>
+              Startup-uri creative și tehnologie în Alba Iulia
+            </Typography>
+          </div>
         </div>
         <StartupsSection />
       </div>
     );
-
-    return !this.state.isSigningUp
-      ? header :
-      <SignUpForm occupation={this.state.occupation} />;
   }
 }
 
