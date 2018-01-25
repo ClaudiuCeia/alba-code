@@ -28,14 +28,14 @@ const theme = createMuiTheme({
         "fontWeight": 700,
         "fontFamily": "\"Merriweather\", \"Georgia\", serif",
         "lineHeight": "1.35417em",
-        "color": "rgba(0, 0, 0, 0.87)"
+        "color": "#3A3B41"
       },
       "title": {
         "fontSize": "1.3125rem",
         "fontWeight": 500,
         "fontFamily": "\"Merriweather\", \"Georgia\", serif",
         "lineHeight": "1.16667em",
-        "color": "rgba(0, 0, 0, 0.87)"
+        "color": "#3A3B41"
       },
     }
 });

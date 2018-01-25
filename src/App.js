@@ -2,28 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { withStyles } from 'material-ui/styles';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
-import IconButton from 'material-ui/IconButton';
-import Button from 'material-ui/Button';
 import Divider from 'material-ui/Divider';
-import MenuIcon from 'material-ui-icons/Menu';
 
-import {
-  Link,
-} from 'react-router-dom';
+import Header from './components/Header';
 
 const styles = theme => ({
     root: {
       width: '100%',
+      backgroundColor: '#efefef',
     },
     flex: {
       flex: 1,
-    },
-    menuButton: {
-      marginLeft: -12,
-      marginRight: 20,
     },
     buttonOutline: {
       border: '1px solid rgba(255, 255, 255, .5)',
@@ -33,7 +23,7 @@ const styles = theme => ({
     content: {
       maxWidth: '100%',
       flex: 1,
-      backgroundColor: theme.palette.background.default,
+      //backgroundColor: theme.palette.background.default,
       paddingBottom: theme.spacing.unit * 3,
     },
     footer: {
@@ -44,12 +34,6 @@ const styles = theme => ({
     },
     leftIcon: {
       marginRight: theme.spacing.unit,
-    },
-    logoLink: {
-      color: '#fff',
-      textDecoration: 'none',
-      display: 'inline-flex',
-      flex: 1,
     },
     profileLink: {
       color: 'inherit',
@@ -63,24 +47,7 @@ class App extends Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              className={classes.menuButton}
-              color="contrast"
-              aria-label="Menu">
-              <MenuIcon />
-            </IconButton>
-            <Link to="/" className={classes.logoLink}>
-              <Typography type="title" color="inherit" className={classes.flex}>
-                Made in Alba Iulia
-              </Typography>
-            </Link>
-            <Button color="contrast">
-              Login
-            </Button>
-          </Toolbar>
-        </AppBar>
+        <Header />
         <main className={classes.content}>
           {this.props.children}
         </main>
