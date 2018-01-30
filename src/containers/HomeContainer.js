@@ -9,6 +9,7 @@ import Typography from 'material-ui/Typography';
 import headerBackgroundImage from '../assets/header1920blank.jpg';
 
 import StartupsSection from '../components/StartupsSection/StartupsSection';
+import HangoutsSection from '../components/HangoutsSection/HangoutsSection';
 
 const styles = theme => ({
   root: {
@@ -90,6 +91,7 @@ class HomeContainer extends Component {
             </Typography>
           </div>
         </div>
+        <HangoutsSection />
         <StartupsSection />
       </div>
     );

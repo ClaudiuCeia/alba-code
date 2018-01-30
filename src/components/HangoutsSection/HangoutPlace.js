@@ -41,10 +41,10 @@ const styles = theme => ({
     fontWeight: 'bold',
     letterSpacing: '1px',
   },
-  startupName: {
+  hangoutPlaceName: {
     fontWeight: 'bold',
   },
-  startupLogo: {
+  hangoutPlaceLogo: {
     height: '50px',
     bottom: '10px',
     position: 'absolute',
@@ -52,29 +52,29 @@ const styles = theme => ({
   }
 });
 
-class Startup extends Component {
+class HangoutPlace extends Component {
   render() {
-    const { classes, startup } = this.props;
+    const { classes, hangoutPlace } = this.props;
 
     return (
-      <Grid item xs={12} sm={3} key={startup.name}>
+      <Grid item xs={12} sm={3} key={hangoutPlace.name}>
         <Card className={classes.card}>
           <CardMedia
             className={classes.media}
-            image={startup.imageUrl}
-            title={startup.name}>
+            image={hangoutPlace.imageUrl}
+            title={hangoutPlace.name}>
           </CardMedia>
           <CardContent>
             <Typography
               type="title"
               component="h2"
-              className={classes.startupName}>
-              {startup.name}
+              className={classes.hangoutPlaceName}>
+              {hangoutPlace.name}
             </Typography>
             <Typography
               component="p"
               className={classes.label}>
-              {startup.domain}
+              {hangoutPlace.type}
             </Typography>
           </CardContent>
           <CardActions>
@@ -93,15 +93,15 @@ class Startup extends Component {
   }
 }
 
-Startup.propTypes = {
+HangoutPlace.propTypes = {
   classes: PropTypes.object.isRequired,
-  startup: PropTypes.shape({
+  hangoutPlace: PropTypes.shape({
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     imageUrl: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired,
-    domain: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
   }),
 };
 
-export default withStyles(styles)(Startup);
+export default withStyles(styles)(HangoutPlace);
