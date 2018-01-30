@@ -14,6 +14,7 @@ const styles = theme => ({
     flexGrow: 1,
     marginTop: 30,
     position: 'relative',
+    marginBottom: 30,
   },
   [theme.breakpoints.up("md")]: {
     content: {
