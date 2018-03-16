@@ -4,9 +4,6 @@
 #
 version: 2
 jobs:
-  notify:
-    webhooks:
-      - url: https://phabricator.hackerfactory.ro/harbormaster/hook/circleci/
   build:
     docker:
       # specify the version you desire here
@@ -20,6 +17,9 @@ jobs:
     working_directory: ~/repo
 
     steps:
+      notify:
+        webhooks:
+          - url: https://phabricator.hackerfactory.ro/harbormaster/hook/circleci/
       - checkout
 
       # Download and cache dependencies
