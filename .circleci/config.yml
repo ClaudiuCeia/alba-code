@@ -16,10 +16,11 @@ jobs:
 
     working_directory: ~/repo
 
+    notify:
+      webhooks:
+        - url: https://phabricator.hackerfactory.ro/harbormaster/hook/circleci/
+        
     steps:
-      notify:
-        webhooks:
-          - url: https://phabricator.hackerfactory.ro/harbormaster/hook/circleci/
       - checkout
 
       # Download and cache dependencies
